@@ -1,0 +1,31 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run ingestion
+      run: python data_ingestion.py
+    - name: Run processing
+      run: python data_processing.py
+    - name: Train model
+      run: python model_training.py
+    - name: Test API
+      run: |
+        uvicorn api_service:app --host 127.0.0.1 --port 8000 &
+        sleep 5
+        curl http://127.0.0.1:8000/predict
+        
