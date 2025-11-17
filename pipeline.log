@@ -1,0 +1,7 @@
+2025-11-17 11:10:50,881 - __main__ - INFO - Fetching 7 days of bitcoin data from CoinGecko
+2025-11-17 11:10:51,790 - __main__ - ERROR - HTTP error 401: 401 Client Error: Unauthorized for url: https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7&interval=hourly
+2025-11-17 11:10:51,790 - __main__ - INFO - Retrying in 5 seconds...
+2025-11-17 11:10:57,381 - __main__ - ERROR - HTTP error 401: 401 Client Error: Unauthorized for url: https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7&interval=hourly
+2025-11-17 11:10:57,382 - __main__ - INFO - Retrying in 5 seconds...
+2025-11-17 11:11:02,987 - __main__ - ERROR - HTTP error 401: 401 Client Error: Unauthorized for url: https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=7&interval=hourly
+2025-11-17 11:11:02,988 - __main__ - ERROR - Failed to fetch data after 3 attempts
