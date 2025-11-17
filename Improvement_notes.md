@@ -61,7 +61,7 @@ Copy from the artifact for local development.
 
 ---
 
-### **Phase 2: Testing & Validation (Day 3)**
+### **Phase 2: Testing & Validation 
 
 #### 1. Run Tests Locally
 ```bash
@@ -107,7 +107,7 @@ curl http://localhost:8000/data/latest
 
 ---
 
-### **Phase 3: Advanced Features ( 2)**
+### **Phase 3: Advanced Features **
 
 #### 4. Add Model Auto-Retraining Schedule
 
