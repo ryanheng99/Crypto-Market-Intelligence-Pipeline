@@ -16,19 +16,34 @@ from model_training import train_arima_model, evaluate_model, ModelTrainingError
 class TestDataIngestion:
     """Test data ingestion module"""
     
-    def test_fetch_market_data_success(self):
+    @patch("data_ingestion.requests.get")
+    def test_fetch_market_data_success(self, mock_get):
         """Test successful data fetch"""
-        try:
-            df = fetch_market_data(coin="bitcoin", days=7, output_file="test_prices.csv")
+        # Mock API response
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = {
+            "prices": [
+                [1700000000000, 50000],
+                [1700003600000, 50500]
+            ]
+        }
+
+        df = fetch_market_data(coin="bitcoin", days=7, output_file="test_prices.csv")
             
-            assert not df.empty
-            assert "timestamp" in df.columns
-            assert "price" in df.columns
-            assert len(df) > 0
-            assert df["price"].min() > 0
-            
-        except CoinGeckoAPIError as e:
-            pytest.skip(f"API unavailable: {e}")
+        assert not df.empty
+        assert "timestamp" in df.columns
+        assert "price" in df.columns
+        assert len(df) > 2
+        assert df["price"].iloc[0] == 50000
+
+    @patch("data_ingestion.requests.get")
+    def test_fetch_market_data_api_failure(self, mock_get):
+        """Test API failure handling"""
+        mock_get.return_value.status_code = 404
+
+        with pytest.raises(CoinGeckoAPIError):
+            fetch_market_data(coin="invalid_coin", days=1, output_file="test_prices.csv")
+                
     
     def test_fetch_invalid_coin(self):
         """Test fetch with invalid coin"""
