@@ -191,11 +191,21 @@ class TestAPI:
 class TestIntegration:
     """Integration tests for full pipeline"""
     
-    def test_full_pipeline(self):
+    def test_full_pipeline(self, mock_get):
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = {
+            "prices": [
+                [1700000000, 50000],
+                [1700003600, 51000],
+                [1700007200, 52000],
+            
+            ]
+
+        }
         """Test complete pipeline flow"""
         try:
             # 1. Data ingestion
-            df_raw = fetch_market_data(coin="bitcoin", days=7, output_file="test_pipeline.csv")
+            df_raw = fetch_market_data(coin="bitcoin", 3, output_file="test_pipeline.csv")
             assert not df_raw.empty
             
             # 2. Data processing
